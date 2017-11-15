@@ -1,0 +1,73 @@
+---
+title: "p8105_hw6_problem2"
+author: "Chuhan Zhou & He Jin"
+date: "11/15/2017"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: row
+  runtime: shiny
+---
+
+```{r setup, include=FALSE,message = FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(janitor)
+library(stringr)
+library(forcats)
+library(viridis)
+library(plotly)
+library(shiny)
+
+instacart = read_csv("../data/orders_train_allvars.csv") %>%
+  clean_names() 
+```
+
+Column {.sidebar}
+-----------------------------------------------------------------------
+
+```{r sliderinput}
+# selectInput widget
+department = instacart %>% distinct(department) %>% pull()
+selectInput("department_choice", label = h3("Select department"),
+            choices = department, selected = "alcohol")
+
+# sliderInput widget
+sliderInput("order_number", label = h3("Choose the range of order number"), min = 1000, 
+        max = 500000, value = c(1000, 500000))
+
+# radioButtons widget
+#instacart %>%
+#mutate(order_dow = as.character(order_dow),
+#      order_dow = recode(order_dow, "0" = "Sun"))
+
+order_time = instacart %>% distinct(order_dow) %>% pull()
+radioButtons("order_time", label = h3("Choose the order time"),
+    choices = order_time, 
+    selected = "0")
+```
+
+
+Row
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+```
+
+Row {.tabset .tabset-fade}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
