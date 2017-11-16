@@ -68,12 +68,32 @@ Row {.tabset .tabset-fade}
 ### Chart B
 
 ```{r}
-
+renderPlotly({
+  instacart %>%
+  group_by(department,aisle) %>%
+  summarize(items_ordered = n()) %>%
+  mutate(aisle = fct_reorder(aisle, items_ordered)) %>%
+  filter( department == input$department_choice) %>%
+  plot_ly(x = ~aisle, y = ~items_ordered, type = "scatter",              mode = "markers",
+          alpha = 0.5, 
+          color = ~aisle)
+})
 ```
 
 ### Chart C
 
 ```{r}
+renderPlotly({
+  instacart %>%
+  filter(order_dow == input$order_time) %>%
+ group_by(order_dow,department) %>%
+#  summarize(mean_hour = mean(order_hour_of_day)) %>%
+#  select(department,mean_hour) %>%
 
+  plot_ly(x = ~department, y = ~order_hour_of_day, color = ~department, type = "box", colors = "Set2")
+
+
+})
+  
 ```
 
