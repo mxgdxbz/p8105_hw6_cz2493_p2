@@ -36,9 +36,6 @@ sliderInput("order_number", label = h3("Choose the range of order number"), min 
         max = 500000, value = c(1000, 500000))
 
 # radioButtons widget
-#instacart %>%
-#mutate(order_dow = as.character(order_dow),
-#      order_dow = recode(order_dow, "0" = "Sun"))
 
 order_time = instacart %>% distinct(order_dow) %>% pull()
 radioButtons("order_time", label = h3("Choose the order time"),
@@ -53,7 +50,16 @@ Row
 ### Chart A
 
 ```{r}
-
+renderPlotly({
+  instacart %>% 
+  group_by(department) %>%
+  summarize(items_ordered = n()) %>%
+  mutate(department = as.factor(department),
+         department = fct_reorder(department, items_ordered)) %>% 
+  filter( items_ordered %in% input$order_number[1]:input$order_number[2]) %>%
+  plot_ly(x = ~department, y = ~items_ordered, color = ~department, type = "bar")
+})
+```
 ```
 
 Row {.tabset .tabset-fade}
