@@ -84,10 +84,11 @@ renderPlotly({
   summarize(items_ordered = n()) %>%
   mutate(aisle = fct_reorder(aisle, items_ordered)) %>%
   filter( department == input$department_choice) %>%
-  plot_ly(x = ~aisle, y = ~items_ordered, type = "scatter",                   mode = "markers",
+  plot_ly(x = ~aisle, y = ~items_ordered, type = "bar",
           alpha = 0.5, 
           color = ~aisle) %>%
-  layout( title = " Number of Orders for different aisles")
+  layout( title = "Distribution of Orders for Different Aisles",
+          showlegend = FALSE)
 })
 ```
 
@@ -95,13 +96,12 @@ renderPlotly({
 
 ```{r}
 renderPlotly({
-  instacart %>%
-  group_by(department,order_dow) %>%
+  time=instacart %>%
+  group_by(department,order_dow,aisle) %>%
   filter( department == input$department_choice,
           order_dow == input$order_time) %>%
   plot_ly( y = ~aisle, x = ~order_hour_of_day, color = ~aisle, type = "box", colors = "Set2") %>%
-  layout( title = " Distribution of Order Time for Different aisles",  yaxis = "Order Time")
-
+  layout( title = " Distribution of Order Time for Different aisles")
 
 })
   
